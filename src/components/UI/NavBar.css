@@ -1,0 +1,53 @@
+
+.itemCenter{
+    flex-direction: column;
+    text-align: center;
+}
+
+.show>.dropdown-menu {
+    display: block;
+    position: absolute;
+    right: -40px;
+    background-color: #212529;
+    color: white;
+}
+
+.showHam{
+    display: block;
+    position: relative;
+}
+
+/* .collapse:not(.show) {
+    display: block;
+} */
+
+
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item:hover{
+    background-color: transparent;
+    color: white;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    color: white;
+    background-color: #212529;
+}
+
+.navbar-nav {
+    padding-right: 30px;
+}
+
+.dropdown-toggle{
+    cursor: pointer;
+}
+
+.perfilPic {
+    vertical-align: middle;
+    border-radius: 50%;
+    height: 40px;
+    position: absolute;
+    top: 0px;
+}
