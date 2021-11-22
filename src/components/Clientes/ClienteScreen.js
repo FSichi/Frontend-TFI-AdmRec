@@ -120,6 +120,7 @@ export const ClienteScreen = ({ history }) => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.reload();
+                    history.push(`/cli/${clienteId}`);
                 }
             });
         }); 

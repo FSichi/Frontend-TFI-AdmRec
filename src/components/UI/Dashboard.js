@@ -172,8 +172,6 @@ export const Dashboard = () => {
                             )
                     }
 
-
-
                     {
                         ((clientesState && proyectosState) && (clientes.length > 3 && proyectos.length > 6))
 

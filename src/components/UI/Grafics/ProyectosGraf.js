@@ -11,7 +11,7 @@ export const ProyectosGraf = ({proyectos}) => {
 
 
     const data = {
-        labels: ['Completados', 'Desarrollo'],
+        labels: ['Desarrollo', 'Completados'],
         datasets: [{
             label: '',
             data: [desarrolloState, completadoState],
