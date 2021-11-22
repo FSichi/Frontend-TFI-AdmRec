@@ -31,10 +31,10 @@ export const NavBar = () => {
         setNavTogleHamb(!navTogleHamb);
     }
 
-    const handleLogout = (e) => {
+/*     const handleLogout = (e) => {
         e.preventDefault();
         console.log('LOGOUT');
-    }
+    } */
 
     return (
         <div className='container-fluid mt-3'>
@@ -134,56 +134,6 @@ export const NavBar = () => {
                                         <Link className="nav-link" to="/reports">Reportes</Link>
                                     </li>
 
-                                    <li className='mt-1'>
-                                        <button className="dropdown-item" onClick={handleLogout}>
-                                            <i className="fas fa-sign-out-alt"></i>
-                                        </button>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </nav>
-
-            <nav className="navbar navbar-expand-md navbar-dark bg-dark nav rounded-3 d-block d-lg-none d-md-none">
-                <div className="container-fluid">
-                    <span className="navbar-brand">
-                        <img src={`../assets/logo.svg`} alt='Logo' className='d-inline-block align-text-top' style={{ width: '40px', height: '40px' }} />
-                    </span>
-                    <button
-                        className="navbar-toggler"
-                        type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                        onClick={handleTogleHamb}
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div className={navTogleHamb ? 'collapse navbar-collapse show' : 'collapse navbar-collapse'} >  {/*  d-none d-sm-none AQUI FALTA ARREGLAR EL NAVBAR*/}
-                        <div className="navbar-nav me-auto mb-2 mb-lg-0">
-
-                        </div>
-                        <form className="d-flex justify-content-between mt-3">
-                            <div className="align-content-between">
-                                <ul className="navbar-nav me-auto mb-2 mb-lg-0" onClick={handleTogleHamb}>
-                                    <li className="nav-item">
-                                        <Link className="nav-link me-3" to='/uni/cor'>Correlatividad</Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link me-3" to='/uni/mat'>Mis Materias</Link>
-                                    </li>
-                                    <hr />
-                                    <li className="nav-item">
-                                        <Link className="nav-link me-3" to='/uni/perfil'>Perfil</Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link me-3" to='./' onClick={handleLogout}>Cerrar Sesion</Link>
-                                    </li>
                                 </ul>
                             </div>
                         </form>
