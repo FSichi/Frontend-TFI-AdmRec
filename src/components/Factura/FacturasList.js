@@ -9,7 +9,7 @@ export const FacturasList = () => {
     const [listFacturas, setListFacturas] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/facturas').then((response) => {
+        axios.get('https://tfi-admrec.herokuapp.com/facturas').then((response) => {
             setListFacturas(response.data);
         });
     }, []);
@@ -21,8 +21,6 @@ export const FacturasList = () => {
     const { search } = formValues;
 
     const facturasFilter = getFacturasByRazonSocial(search, listFacturas);
-
-    /* ME FALTA HACER UN FILTRO QUE DE LOS PROYECTOS POR NOMBRE */
 
     return (
         <div className='container-fluid'>

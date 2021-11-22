@@ -18,20 +18,20 @@ export const ReportesScreen = () => {
 
     useEffect(() => {
 
-        axios.get('http://localhost:4000/facturas').then((response) => {
+        axios.get('https://tfi-admrec.herokuapp.com/facturas').then((response) => {
             setFacturas(response.data);
             setFacturasComp(true);
         });
 
-        axios.get('http://localhost:4000/detalles').then((response) => {
+        axios.get('https://tfi-admrec.herokuapp.com/detalles').then((response) => {
             setDetalles(response.data);
         });
 
-        axios.get('http://localhost:4000/clientes').then((response) => {
+        axios.get('https://tfi-admrec.herokuapp.com/clientes').then((response) => {
             setClientes(response.data);
         });
 
-        axios.get('http://localhost:4000/proyectos').then((response) => {
+        axios.get('https://tfi-admrec.herokuapp.com/proyectos').then((response) => {
             setProyectos(response.data);
         });
 
@@ -76,10 +76,6 @@ export const ReportesScreen = () => {
         setFacturasState(!facturasState);
 
     }
-
-
-
-
 
     return (
         <div className='container-fluid'>

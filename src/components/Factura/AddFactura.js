@@ -70,7 +70,7 @@ export const AddFactura = ({ history }) => {
 
         if (clienteId !== '0') {
 
-            axios.get(`http://localhost:4000/general/${clienteId}`).then((response) => {
+            axios.get(`https://tfi-admrec.herokuapp.com/general/${clienteId}`).then((response) => {
 
                 setCliente(response.data[0]);
                 setProyectosFilter(response.data[1]);
@@ -99,7 +99,7 @@ export const AddFactura = ({ history }) => {
             return;
         } else {
 
-            axios.get(`http://localhost:4000/general/${searchFilter}`).then((response) => {
+            axios.get(`https://tfi-admrec.herokuapp.com/general/${searchFilter}`).then((response) => {
 
                 if (response.data !== 'Not Found') {
                     setCliente(response.data[0]);

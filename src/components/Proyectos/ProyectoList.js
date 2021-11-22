@@ -9,7 +9,7 @@ export const ProyectoList = () => {
     const [listProyectos, setListProyectos] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/proyectos').then((response) => {
+        axios.get('https://tfi-admrec.herokuapp.com/proyectos').then((response) => {
             setListProyectos(response.data);
         });
     }, []);

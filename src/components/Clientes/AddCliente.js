@@ -27,7 +27,7 @@ export const AddCliente = ({ history }) => {
             telefono: telefono
         }
 
-        axios.post('http://localhost:4000/clientes', data).then((response) => {
+        axios.post('https://tfi-admrec.herokuapp.com/clientes', data).then((response) => {
 
             Swal.fire({
                 title: 'Cliente Agregado Correctamente',

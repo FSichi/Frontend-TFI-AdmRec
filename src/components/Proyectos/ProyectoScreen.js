@@ -44,13 +44,13 @@ export const ProyectoScreen = ({ history }) => {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:4000/proyectos/pc/${proyectoId}`).then((response) => {
+        axios.get(`https://tfi-admrec.herokuapp.com/proyectos/pc/${proyectoId}`).then((response) => {
             setProyecto(response.data[0]);
             setCliente(response.data[1]);
             setProyectoState(true);
         });
 
-        axios.get(`http://localhost:4000/detalles`).then((response) => {
+        axios.get(`https://tfi-admrec.herokuapp.com/detalles`).then((response) => {
             setDetalles(response.data);
         });
 
@@ -126,7 +126,7 @@ export const ProyectoScreen = ({ history }) => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.delete(`http://localhost:4000/proyectos/${proyectoId}`).then((response) => {
+                axios.delete(`https://tfi-admrec.herokuapp.com/proyectos/${proyectoId}`).then((response) => {
                     Swal.fire(
                         'Proyecto eliminado!',
                         '',
@@ -198,7 +198,7 @@ export const ProyectoScreen = ({ history }) => {
 
         /* console.log(data); */
 
-        axios.put(`http://localhost:4000/proyectos/${proyectoId}`, data).then((response) => {
+        axios.put(`https://tfi-admrec.herokuapp.com/proyectos/${proyectoId}`, data).then((response) => {
 
             Swal.fire({
                 title: 'Proyecto Actualizado Correctamente',

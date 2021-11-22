@@ -18,7 +18,7 @@ export const Dashboard = () => {
 
     useEffect(() => {
 
-        axios.get('http://localhost:4000/general').then((response) => {
+        axios.get('https://tfi-admrec.herokuapp.com/general').then((response) => {
             setClientes(response.data[0]);
             setProyectos(response.data[1]);
             setFacturas(response.data[2]);

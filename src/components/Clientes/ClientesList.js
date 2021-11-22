@@ -10,7 +10,7 @@ export const ClientesList = () => {
     const [listClientes, setListClientes] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/clientes').then((response) => {
+        axios.get('https://tfi-admrec.herokuapp.com/clientes').then((response) => {
             setListClientes(response.data);
         });
     }, []);

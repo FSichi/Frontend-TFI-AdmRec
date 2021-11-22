@@ -60,7 +60,7 @@ export const TablaFacturas = ({ facturas }) => {
     const [detalles, setDetalles] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:4000/detalles').then((response) => {
+        axios.get('https://tfi-admrec.herokuapp.com/detalles').then((response) => {
             setDetalles(response.data);
         });
     }, []);
@@ -87,10 +87,6 @@ export const TablaFacturas = ({ facturas }) => {
             }
         });
     }
-
-    // console.log('Saliendo del For: ', facturasAll);
-
-
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);

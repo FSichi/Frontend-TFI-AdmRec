@@ -16,11 +16,11 @@ export const ClienteScreen = ({ history }) => {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:4000/clientes/${clienteId}`).then((response) => {
+        axios.get(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
             setCliente(response.data);
         });
 
-        axios.get(`http://localhost:4000/proyectos/cliente/${clienteId}`).then((response) => {
+        axios.get(`https://tfi-admrec.herokuapp.com/proyectos/cliente/${clienteId}`).then((response) => {
             setProyectos(response.data);
         });
 
@@ -56,7 +56,7 @@ export const ClienteScreen = ({ history }) => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.delete(`http://localhost:4000/clientes/${clienteId}`).then((response) => {
+                axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
                     Swal.fire(
                         'Cliente eliminado!',
                         '',
@@ -110,7 +110,7 @@ export const ClienteScreen = ({ history }) => {
             data.telefono = phone
         }
 
-        axios.put(`http://localhost:4000/clientes/${clienteId}`, data).then((response) => {
+        axios.put(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`, data).then((response) => {
             
             Swal.fire({
                 title: 'Cliente Actualizado Correctamente',

@@ -42,7 +42,7 @@ export const AddProyecto = ({ history }) => {
 
     useEffect(() => {
         if(clienteId !== '0'){
-            axios.get(`http://localhost:4000/clientes/${clienteId}`).then((response) => {
+            axios.get(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
                 setCliente(response.data);
                 setClienteState(true);
             });
@@ -120,7 +120,7 @@ export const AddProyecto = ({ history }) => {
             ClienteId: cliente.id
         }
 
-        axios.post('http://localhost:4000/proyectos', data).then((response) => {
+        axios.post('https://tfi-admrec.herokuapp.com/proyectos', data).then((response) => {
             Swal.fire({
                 title: 'Proyecto Agregado Correctamente',
                 icon: 'success',
@@ -138,7 +138,7 @@ export const AddProyecto = ({ history }) => {
 
     function handleFilterCliente() {
 
-        axios.get(`http://localhost:4000/clientes/cc/${searchFilter}`).then((response) => {
+        axios.get(`https://tfi-admrec.herokuapp.com/clientes/cc/${searchFilter}`).then((response) => {
 
             if(response.data !== 'Not Found'){
 

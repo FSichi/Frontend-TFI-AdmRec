@@ -19,7 +19,7 @@ export const FacturaScreen = ({ history }) => {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:4000/facturas/${facturaId}`).then((response) => {
+        axios.get(`https://tfi-admrec.herokuapp.com/facturas/${facturaId}`).then((response) => {
             setFactura(response.data);
             setFacturaState(true);
         });
@@ -28,12 +28,12 @@ export const FacturaScreen = ({ history }) => {
 
     if (facturaState) {
 
-        axios.get(`http://localhost:4000/clientes/rz/${factura.razonSocial}`).then((response) => {
+        axios.get(`https://tfi-admrec.herokuapp.com/clientes/rz/${factura.razonSocial}`).then((response) => {
             setCliente(response.data);
             setClientesState(true);
         });
 
-        axios.get(`http://localhost:4000/detalles/fac/${factura.id}`).then((response) => {
+        axios.get(`https://tfi-admrec.herokuapp.com/detalles/fac/${factura.id}`).then((response) => {
             setDetalles(response.data);
         });
 

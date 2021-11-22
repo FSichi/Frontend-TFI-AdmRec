@@ -87,7 +87,7 @@ export const FacturaGenerated = ({ proyectos, cliente, tipoFac, medioPago, histo
             tipoFactura: factura.TipoFactura
         }
 
-        axios.post('http://localhost:4000/facturas', data).then((response) => {
+        axios.post('https://tfi-admrec.herokuapp.com/facturas', data).then((response) => {
 
             saveDetalles();
 
@@ -110,7 +110,7 @@ export const FacturaGenerated = ({ proyectos, cliente, tipoFac, medioPago, histo
             ProyectoId: 0,
         }
 
-        axios.get('http://localhost:4000/facturas').then((response) => {
+        axios.get('https://tfi-admrec.herokuapp.com/facturas').then((response) => {
 
             fact = response.data;
 
@@ -131,7 +131,7 @@ export const FacturaGenerated = ({ proyectos, cliente, tipoFac, medioPago, histo
 
             detallesFinal.forEach(detalle => {
 
-                axios.post('http://localhost:4000/detalles', detalle).then((response) => {
+                axios.post('https://tfi-admrec.herokuapp.com/detalles', detalle).then((response) => {
 
                     console.log('Guarde: ', detalle);
 
