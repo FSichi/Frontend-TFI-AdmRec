@@ -36,7 +36,7 @@ export const ClienteScreen = ({ history }) => {
         phone: telefono
     });
 
-    var { nombre, email, cc, dir, phone } = formValues;
+    const { nombre, email, cc, dir, phone } = formValues;
 
     const handleProyectos = () => {
         setProyectState(!proyectoState);
@@ -119,8 +119,8 @@ export const ClienteScreen = ({ history }) => {
                 confirmButtonText: 'Continuar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    nombre = nombre;
-                    setActualizarState(false);
+                    window.location.reload();
+                    history.push(`/cli/${clienteId}`);
                 }
             });
         }); 
