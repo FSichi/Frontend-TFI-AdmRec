@@ -119,7 +119,6 @@ export const ClienteScreen = ({ history }) => {
                 confirmButtonText: 'Continuar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.reload();
                     history.push(`/cli/${clienteId}`);
                 }
             });
