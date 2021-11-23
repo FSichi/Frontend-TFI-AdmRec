@@ -51,15 +51,14 @@ export const AddProyecto = ({ history }) => {
 
     const tiempoTranscurrido = Date.now();
     const hoy = new Date(tiempoTranscurrido);
-
-    console.log(hoy.toLocaleDateString());
+    var fechaInicioToday = hoy.getFullYear() + "-" + (hoy.getMonth() + 1) + "-" + hoy.getDate();
 
     const [formValues, handleInputChange] = useForm({
         name: '',
         desc: '',
         cot: '',
         dur: '',
-        fInicio: '',
+        fInicio: fechaInicioToday,
         fFin: '',
         searchFilter: '',
     });
