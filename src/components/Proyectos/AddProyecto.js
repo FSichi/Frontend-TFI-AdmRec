@@ -41,13 +41,18 @@ export const AddProyecto = ({ history }) => {
     const [optionValue, setOptionValue] = useState('1');
 
     useEffect(() => {
-        if(clienteId !== '0'){
+        if (clienteId !== '0') {
             axios.get(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
                 setCliente(response.data);
                 setClienteState(true);
             });
         }
     }, [clienteId]);
+
+    const tiempoTranscurrido = Date.now();
+    const hoy = new Date(tiempoTranscurrido);
+
+    console.log(hoy.toLocaleDateString());
 
     const [formValues, handleInputChange] = useForm({
         name: '',
@@ -63,8 +68,8 @@ export const AddProyecto = ({ history }) => {
 
     const handleRegister = () => {
 
-        if(name === '' || desc === '' || cot === '' || dur === '' || fInicio === '' || fFin === ''){
-            
+        if (name === '' || desc === '' || cot === '' || dur === '' || fInicio === '' || fFin === '') {
+
             Swal.fire({
                 title: 'Por favor completa todos los campos',
                 icon: 'error',
@@ -77,7 +82,7 @@ export const AddProyecto = ({ history }) => {
 
         /* AQUI FALTA EL IF DE COMPROBAR AL CLIENTE */
 
-        if(!clienteState){
+        if (!clienteState) {
             Swal.fire({
                 title: 'No ha Enlazado ningun cliente en el proyecto.',
                 text: 'Por favor, verifique la entrada del cliente y vuelva a intentarlo',
@@ -90,7 +95,7 @@ export const AddProyecto = ({ history }) => {
         }
 
         /* --------------TODO ESTA CORRECTRO. PUEDO AGREGAR EL PROYECTO----------------- */
-        
+
         var durationComplete = '';
 
         switch (optionValue) {
@@ -103,7 +108,7 @@ export const AddProyecto = ({ history }) => {
             case '3':
                 durationComplete = dur + ' Años';
                 break;
-        
+
             default:
                 break;
         }
@@ -140,7 +145,7 @@ export const AddProyecto = ({ history }) => {
 
         axios.get(`https://tfi-admrec.herokuapp.com/clientes/cc/${searchFilter}`).then((response) => {
 
-            if(response.data !== 'Not Found'){
+            if (response.data !== 'Not Found') {
 
                 setCliente(response.data);
                 setClienteState(true);
@@ -153,11 +158,11 @@ export const AddProyecto = ({ history }) => {
                     confirmButtonText: 'Continuar'
                 });
 
-            }else{
+            } else {
 
                 setCliente({});
                 setClienteState(false);
-                
+
                 Swal.fire({
                     title: 'El Cliente que intentas buscar no existe.',
                     text: 'Por favor verifica que los datos ingresados sean correctos e intenta de nuevo',
