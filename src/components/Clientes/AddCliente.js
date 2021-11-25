@@ -6,6 +6,8 @@ import axios from 'axios';
 export const AddCliente = ({ history }) => {
 
     const [listClientes, setListClientes] = useState([]);
+    const [cuitState, setCuitState] = useState(false);
+    const [emailState, setEmailState] = useState(false);
 
     useEffect(() => {
         axios.get('https://tfi-admrec.herokuapp.com/clientes').then((response) => {
@@ -84,7 +86,7 @@ export const AddCliente = ({ history }) => {
                 });
             } else if (cc) {
                 Swal.fire({
-                    title: 'EL Cuit/Cuil Ingresado ya coincide con el de un Cliente existente.',
+                    title: 'EL Cuit/Cuil Ingresado ya coincide con el de un Cliente Existente.',
                     icon: 'error',
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'Continuar'
@@ -93,7 +95,16 @@ export const AddCliente = ({ history }) => {
                 });
             } else if (em) {
                 Swal.fire({
-                    title: 'EL Correo Ingresado ya coincide con el de un Cliente existente.',
+                    title: 'EL Correo Ingresado ya coincide con el de un Cliente Existente.',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Continuar'
+                }).then((result) => {
+
+                });
+            } else if (cc && em) {
+                Swal.fire({
+                    title: 'EL Cuit/Cuil y el Correo Ingresados ya coinciden con los de un Cliente Existente.',
                     icon: 'error',
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'Continuar'
