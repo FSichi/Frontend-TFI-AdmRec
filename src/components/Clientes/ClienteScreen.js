@@ -56,15 +56,62 @@ export const ClienteScreen = ({ history }) => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
-                    Swal.fire(
-                        'Cliente eliminado!',
-                        '',
-                        'success'
-                    );
+                axios.get(`https://tfi-admrec.herokuapp.com/general/deleteCli/${clienteId}`).then((response) => {
 
-                    history.push('/cli/list');
+                    var detalles = response.data[0]
+                    var facturas = response.data[1]
+
+                    if (response.data[0].length === 0) {
+                        axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
+                            Swal.fire(
+                                'Cliente eliminado!',
+                                '',
+                                'success'
+                            );
+
+                            history.push('/cli/list');
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Se ha detectado que el Cliente tiene facturas a su nombre. Quieres continuar?',
+                            text: "Esto quitara del listado a la factura correspondiente. Asegurate de que has exportado todas las facturas del cliente.",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Eliminar',
+                            cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+
+                                detalles.forEach(detalle => {
+                                    axios.delete(`https://tfi-admrec.herokuapp.com/detalles/${detalle.id}`).then((response) => {
+                                        
+                                    });
+                                });
+
+                                facturas.forEach(factura => {
+                                    axios.delete(`https://tfi-admrec.herokuapp.com/facturas/${factura.id}`).then((response) => {
+                                        
+                                    });
+                                });
+
+                                axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
+                                    Swal.fire(
+                                        'Cliente eliminado!',
+                                        '',
+                                        'success'
+                                    );
+
+                                    history.push('/cli/list');
+                                });
+                            }
+                        });
+                    }
+
                 });
+
             }
         });
     }
@@ -80,38 +127,38 @@ export const ClienteScreen = ({ history }) => {
             telefono: ''
         }
 
-        if(nombre === undefined){
+        if (nombre === undefined) {
             data.apellidoyNombre = apellidoyNombre
-        }else{
+        } else {
             data.apellidoyNombre = nombre
         }
 
-        if(email === undefined){
+        if (email === undefined) {
             data.correo = correo
-        }else{
+        } else {
             data.correo = email
         }
 
-        if(cc === undefined){
+        if (cc === undefined) {
             data.cuit_cuil = cuit_cuil
-        }else{
+        } else {
             data.cuit_cuil = cc
         }
 
-        if(dir === undefined){
+        if (dir === undefined) {
             data.direccion = direccion
-        }else{
+        } else {
             data.direccion = dir
         }
 
-        if(phone === undefined){
+        if (phone === undefined) {
             data.telefono = telefono
-        }else{
+        } else {
             data.telefono = phone
         }
 
         axios.put(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`, data).then((response) => {
-            
+
             Swal.fire({
                 title: 'Cliente Actualizado Correctamente',
                 icon: 'success',
@@ -122,7 +169,7 @@ export const ClienteScreen = ({ history }) => {
                     window.location.reload();
                 }
             });
-        }); 
+        });
     }
 
     return (
@@ -137,8 +184,8 @@ export const ClienteScreen = ({ history }) => {
                         <div className="d-flex flex-column align-items-center p-3 py-5">
                             <img className="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt='Logo Perfil' />
                             <h2 className="font-weight-bold mt-4 fst-italic">{apellidoyNombre}</h2>
-                            <h2 className='mt-3 fst-italic' style={{fontSize:'1.3rem'}}><i className="fas fa-envelope"></i> {correo}</h2>
-                            <h2 className='mt-3 fst-italic' style={{fontSize:'1.3rem'}}><i className="fas fa-mobile-alt"></i> {telefono}</h2>
+                            <h2 className='mt-3 fst-italic' style={{ fontSize: '1.3rem' }}><i className="fas fa-envelope"></i> {correo}</h2>
+                            <h2 className='mt-3 fst-italic' style={{ fontSize: '1.3rem' }}><i className="fas fa-mobile-alt"></i> {telefono}</h2>
                             <div className="mt-3">
                                 <hr />
                                 <Link to={`/pro/add/${clienteId}`} className='btn btn-outline-light w-100 mb-4'>Agregar un Proyecto</Link>  {/* TENGO QUE AGREGAR REDUX PARA USAR EL CLIENTE ACTIVE Y SACAR EL VALOR ACTUAL */}
@@ -186,7 +233,7 @@ export const ClienteScreen = ({ history }) => {
                                                 <input type="text" className="form-control" name='cc' disabled value={cuit_cuil} />
                                             </div>
                                             <div className="col-md-6">
-                                                <button className="btn btn-info w-100" type="button" onClick={() => {setActualizarState(!actualizarState)}}>Actualizar Perfil</button>
+                                                <button className="btn btn-info w-100" type="button" onClick={() => { setActualizarState(!actualizarState) }}>Actualizar Perfil</button>
                                             </div>
                                             <div className="col-md-6">
                                                 <button className='btn btn-outline-danger w-100' onClick={handleDelete}> Borrar Cliente </button>
@@ -198,26 +245,26 @@ export const ClienteScreen = ({ history }) => {
                                         <div className="row mt-1 ms-5 me-5">
                                             <div className="col-md-12 mb-3">
                                                 <span className="fs-5">Nombre Completo</span>
-                                                <input type="text" className="form-control" name='nombre' value={nombre} onChange={handleInputChange}/>
+                                                <input type="text" className="form-control" name='nombre' value={nombre} onChange={handleInputChange} />
                                             </div>
                                             <div className="col-md-12 mb-3">
                                                 <span className="fs-5">Correo</span>
-                                                <input type="text" className="form-control" name='email' value={email} onChange={handleInputChange}/>
+                                                <input type="text" className="form-control" name='email' value={email} onChange={handleInputChange} />
                                             </div>
                                             <div className="col-md-12 mb-3">
                                                 <span className="fs-5">Telefono de Contacto</span>
-                                                <input type="text" className="form-control" name='phone' value={phone} onChange={handleInputChange}/>
+                                                <input type="text" className="form-control" name='phone' value={phone} onChange={handleInputChange} />
                                             </div>
                                             <div className="col-md-12 mb-3">
                                                 <span className="fs-5">Direccion</span>
-                                                <input type="text" className="form-control" name='dir' value={dir} onChange={handleInputChange}/>
+                                                <input type="text" className="form-control" name='dir' value={dir} onChange={handleInputChange} />
                                             </div>
                                             <div className="col-md-12 mb-5">
                                                 <span className="fs-5">Cuit /Cuil</span>
-                                                <input type="text" className="form-control" name='cc' value={cc} onChange={handleInputChange}/>
+                                                <input type="text" className="form-control" name='cc' value={cc} onChange={handleInputChange} />
                                             </div>
                                             <div className="col-md-6">
-                                                <button className='btn btn-warning w-100' onClick={() => {setActualizarState(!actualizarState)}}> Cancelar Actualizacion </button>
+                                                <button className='btn btn-warning w-100' onClick={() => { setActualizarState(!actualizarState) }}> Cancelar Actualizacion </button>
                                             </div>
                                             <div className="col-md-6">
                                                 <button className="btn btn-success w-100" type="button" onClick={handleUpdate}>Confirmar Actualizacion</button>
