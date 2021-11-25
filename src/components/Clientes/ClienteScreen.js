@@ -56,61 +56,86 @@ export const ClienteScreen = ({ history }) => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.get(`https://tfi-admrec.herokuapp.com/general/deleteCli/${clienteId}`).then((response) => {
+                if (proyectos.length !== 0) {
 
-                    var detalles = response.data[0]
-                    var facturas = response.data[1]
+                    axios.get(`https://tfi-admrec.herokuapp.com/general/deleteCli/${clienteId}`).then((response) => {
 
-                    if (response.data[0].length === 0 && response.data[1].length === 0) {
-                        axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
+                        // var detalles = response.data[0]
+                        var facturas = response.data[1]
+
+                        if (response.data[0].length === 0 && response.data[1].length === 0) {
+                            axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
+                                Swal.fire(
+                                    'Cliente eliminado!',
+                                    '',
+                                    'success'
+                                );
+                                history.push('/cli/list');
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Se ha detectado que el Cliente tiene facturas a su nombre. Quieres continuar?',
+                                text: "Esto quitara del listado a la factura correspondiente. Asegurate de que has exportado todas las facturas del cliente.",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Eliminar',
+                                cancelButtonText: 'Cancelar'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+
+                                    /*  
+                                        detalles.forEach(detalle => {
+                                            axios.delete(`https://tfi-admrec.herokuapp.com/detalles/${detalle.id}`).then((response) => {
+                                    
+                                            });
+                                        }); 
+                                    */
+
+                                    facturas.forEach(factura => {
+                                        axios.delete(`https://tfi-admrec.herokuapp.com/facturas/${factura.id}`).then((response) => {
+
+                                        });
+                                    });
+
+                                    axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
+                                        Swal.fire(
+                                            'Cliente eliminado!',
+                                            '',
+                                            'success'
+                                        );
+
+                                        history.push('/cli/list');
+                                    });
+                                }
+                            });
+                        }
+
+                    });
+
+                } else {
+
+                    var rz = cliente.apellidoyNombre;
+
+                    axios.get(`https://tfi-admrec.herokuapp.com/facturas/rz/${rz}`).then((response) => {
+
+                        console.log(response.data);
+
+                        /* Borrar Cliente */
+/*                         axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
                             Swal.fire(
                                 'Cliente eliminado!',
                                 '',
                                 'success'
                             );
-
                             history.push('/cli/list');
-                        });
-                    }
-                    else {
-                        Swal.fire({
-                            title: 'Se ha detectado que el Cliente tiene facturas a su nombre. Quieres continuar?',
-                            text: "Esto quitara del listado a la factura correspondiente. Asegurate de que has exportado todas las facturas del cliente.",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Eliminar',
-                            cancelButtonText: 'Cancelar'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
+                        }); */
 
-                                detalles.forEach(detalle => {
-                                    axios.delete(`https://tfi-admrec.herokuapp.com/detalles/${detalle.id}`).then((response) => {
-                                        
-                                    });
-                                });
+                    });
 
-                                facturas.forEach(factura => {
-                                    axios.delete(`https://tfi-admrec.herokuapp.com/facturas/${factura.id}`).then((response) => {
-                                        
-                                    });
-                                });
-
-                                axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
-                                    Swal.fire(
-                                        'Cliente eliminado!',
-                                        '',
-                                        'success'
-                                    );
-
-                                    history.push('/cli/list');
-                                });
-                            }
-                        });
-                    }
-
-                });
+                }
 
             }
         });
