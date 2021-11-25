@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import { useForm } from '../../hooks/useForm';
 import axios from 'axios';
 
-
 export const AddCliente = ({ history }) => {
+
+    const [listClientes, setListClientes] = useState([]);
+
+    useEffect(() => {
+        axios.get('https://tfi-admrec.herokuapp.com/clientes').then((response) => {
+            setListClientes(response.data);
+        });
+    }, []);
 
     const [formValues, handleInputChange] = useForm({
         apellidoyNombre: '',
@@ -27,20 +34,74 @@ export const AddCliente = ({ history }) => {
             telefono: telefono
         }
 
-        axios.post('https://tfi-admrec.herokuapp.com/clientes', data).then((response) => {
+        if (listClientes.length === 0) {
 
-            Swal.fire({
-                title: 'Cliente Agregado Correctamente',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Continuar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    history.push('/cli/list');
-                }
+            axios.post('https://tfi-admrec.herokuapp.com/clientes', data).then((response) => {
+
+                Swal.fire({
+                    title: 'Cliente Agregado Correctamente',
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Continuar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        history.push('/cli/list');
+                    }
+                });
+
             });
-            
-        });
+        } else {
+
+            var cc = false;
+            var em = false;
+
+            listClientes.forEach(cliente => {
+
+                if (cliente.cuit_cuil === data.cuit_cuil) {
+                    cc = true;
+                }
+
+                if (cliente.correo === data.correo) {
+                    em = true;
+                }
+
+            });
+
+            if (!cc && !em) {
+                axios.post('https://tfi-admrec.herokuapp.com/clientes', data).then((response) => {
+
+                    Swal.fire({
+                        title: 'Cliente Agregado Correctamente',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Continuar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            history.push('/cli/list');
+                        }
+                    });
+
+                });
+            } else if (cc) {
+                Swal.fire({
+                    title: 'EL Cuit/Cuil Ingresado ya coincide con el de un Cliente existente.',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Continuar'
+                }).then((result) => {
+
+                });
+            } else if (em) {
+                Swal.fire({
+                    title: 'EL Correo Ingresado ya coincide con el de un Cliente existente.',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Continuar'
+                }).then((result) => {
+
+                });
+            }
+        }
 
     }
 
