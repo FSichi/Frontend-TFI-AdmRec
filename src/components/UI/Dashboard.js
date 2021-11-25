@@ -164,7 +164,6 @@ export const Dashboard = () => {
                                 <div className='col-lg-4 col-md-12 bg-dark text-white mb-5 me-lg-5' style={{ borderRadius: '20px' }} id="capture">
                                     <div className='d-flex justify-content-between mt-3'>
                                         <h2 className='text-center mt-3'>Distribucion de los Proyectos</h2>
-                                        <button className='btn btn-outline-light' onClick={() => { printDocument('1') }}>Exportar</button>
                                     </div>
                                     <hr />
                                     <h2 className='mt-5 text-center'>No hay suficientes Datos en el sistema como para generar un grafico Informativo</h2>

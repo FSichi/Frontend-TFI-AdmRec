@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 export const ReportesScreen = () => {
 
@@ -41,12 +42,36 @@ export const ReportesScreen = () => {
         setProyectosState(false);
         setFacturasState(false);
         setClientesState(!clientesState);
+
+        if (clientes.length === 0) {
+            Swal.fire({
+                title: 'El Sistema no Posee Registros de Clientes.',
+                text: 'Si piensas que es un error, por favor comunicate con un administrador',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
+
+            setClientesState(false);
+        }
     }
 
     const handleProyecto = () => {
         setClientesState(false)
         setFacturasState(false);
         setProyectosState(!proyectosState);
+
+        if (proyectos.length === 0) {
+            Swal.fire({
+                title: 'El Sistema no Posee Registros de Proyectos.',
+                text: 'Si piensas que es un error, por favor comunicate con un administrador',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
+
+            setProyectosState(false);
+        }
     }
 
     const handleFactura = () => {
@@ -75,79 +100,88 @@ export const ReportesScreen = () => {
 
         setFacturasState(!facturasState);
 
+        if (facturas.length === 0) {
+            Swal.fire({
+                title: 'El Sistema no Posee Registros de Facturas.',
+                text: 'Si piensas que es un error, por favor comunicate con un administrador',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
+
+            setFacturasState(false);
+        }
+
     }
 
     return (
-        <div className='container-fluid'>
+        <div className='container-fluid mt-4'>
 
             <div className='me-5 ms-5' >
 
+                {/* CARDS MODIFY */}
+                <div className='row d-flex justify-content-between'>
 
-                {/* CARDS */}
-                <div className='container'>
-                    <div className='row d-flex justify-content-between'>
+                    <div className='col-lg-3 col-md-3 bg-dark text-white mt-5' style={{ borderRadius: '10px' }}>
 
-                        <div className='col-3 bg-dark text-white mt-5' style={{ borderRadius: '10px' }}>
-
-                            <div className='row mt-4 mb-3'>
-                                <div className='col-6'>
-                                    <img src={`../assets/user.svg`} alt='Usuario' style={{ height: '100px', width: '100px' }} className='ms-4' />
-                                </div>
-                                <div className='col-6 '>
-                                    <h2>Usuarios</h2>
-                                    {
-                                        (!clientesState)
-                                            ? (<button className='btn btn-outline-light' onClick={handleCliente}>Preparar Reporte</button>)
-                                            : (<button className='btn btn-outline-light' onClick={handleCliente}>Cancelar Reporte</button>)
-                                    }
-                                </div>
+                        <div className='row mt-4 mb-3'>
+                            <div className='col-lg-6 col-md-12 text-center'>
+                                <img src={`../assets/user.svg`} alt='Usuario' style={{ height: '100px', width: '100px' }} />
                             </div>
-
-                        </div>
-
-                        <div className='col-3 bg-dark text-white mt-5' style={{ borderRadius: '10px' }}>
-
-                            <div className='row mt-4 mb-3'>
-                                <div className='col-4 me-3'>
-                                    <img src={`../assets/proyect.svg`} alt='Usuario' style={{ height: '100px', width: '100px' }} className='ms-4' />
-                                </div>
-                                <div className='col-6 ms-4'>
-                                    <h2>Proyectos</h2>
-                                    {
-                                        (!proyectosState)
-                                            ? (<button className='btn btn-outline-light' onClick={handleProyecto}>Preparar Reporte</button>)
-                                            : (<button className='btn btn-outline-light' onClick={handleProyecto}>Cancelar Reporte</button>)
-                                    }
-                                </div>
+                            <div className='col-lg-6 col-md-12 mt-md-4 mt-lg-2 text-center'>
+                                <h2>Usuarios</h2>
+                                {
+                                    (!clientesState)
+                                        ? (<button className='btn btn-outline-light' onClick={handleCliente}>Preparar Reporte</button>)
+                                        : (<button className='btn btn-outline-light' onClick={handleCliente}>Cancelar Reporte</button>)
+                                }
                             </div>
-
-                        </div>
-
-                        <div className='col-3 bg-dark text-white mt-5' style={{ borderRadius: '10px' }}>
-
-                            <div className='row mt-4 mb-3'>
-                                <div className='col-6'>
-                                    <img src={`../assets/invoice.svg`} alt='Usuario' style={{ height: '100px', width: '100px' }} className='ms-4' />
-                                </div>
-                                <div className='col-6'>
-                                    <h2>Facturas</h2>
-                                    {
-                                        (!facturasState)
-                                            ? (<button className='btn btn-outline-light' onClick={handleFactura}>Preparar Reporte</button>)
-                                            : (<button className='btn btn-outline-light' onClick={handleFactura}>Cancelar Reporte</button>)
-                                    }
-                                </div>
-                            </div>
-
                         </div>
 
                     </div>
+
+                    <div className='col-lg-3 col-md-3 bg-dark text-white mt-5' style={{ borderRadius: '10px' }}>
+
+                        <div className='row mt-4 mb-3'>
+                            <div className='col-lg-6 col-md-12 text-center'>
+                                <img src={`../assets/proyect.svg`} alt='Usuario' style={{ height: '100px', width: '100px' }} />
+                            </div>
+                            <div className='col-lg-6 col-md-12 mt-md-4 mt-lg-2 text-center'>
+                                <h2>Proyectos</h2>
+                                {
+                                    (!proyectosState)
+                                        ? (<button className='btn btn-outline-light' onClick={handleProyecto}>Preparar Reporte</button>)
+                                        : (<button className='btn btn-outline-light' onClick={handleProyecto}>Cancelar Reporte</button>)
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div className='col-lg-3 col-md-3 bg-dark text-white mt-5' style={{ borderRadius: '10px' }}>
+
+                        <div className='row mt-4 mb-3'>
+                            <div className='col-lg-6 col-md-12 text-center'>
+                                <img src={`../assets/invoice.svg`} alt='Usuario' style={{ height: '100px', width: '100px' }} />
+                            </div>
+                            <div className='col-lg-6 col-md-12 mt-md-4 mt-lg-2 text-center'>
+                                <h2>Facturas</h2>
+                                {
+                                    (!facturasState)
+                                        ? (<button className='btn btn-outline-light' onClick={handleFactura}>Preparar Reporte</button>)
+                                        : (<button className='btn btn-outline-light' onClick={handleFactura}>Cancelar Reporte</button>)
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
 
                 <hr className='mt-5' />
 
                 {
-                    (clientesState)
+                    (clientesState && clientes.length !== 0)
                     &&
                     (
                         <div>
@@ -198,9 +232,8 @@ export const ReportesScreen = () => {
                     )
                 }
 
-
                 {
-                    (proyectosState)
+                    (proyectosState && proyectos.length !== 0)
                     &&
                     (
                         <div>
@@ -252,7 +285,7 @@ export const ReportesScreen = () => {
 
 
                 {
-                    (facturasState)
+                    (facturasState && facturas.length !== 0)
                     &&
                     (
                         <div>
