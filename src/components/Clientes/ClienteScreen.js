@@ -61,6 +61,8 @@ export const ClienteScreen = ({ history }) => {
                     var detalles = response.data[0]
                     var facturas = response.data[1]
 
+                    console.log(response.data);
+
                     if (response.data[0].length === 0 && response.data[1].length) {
                         axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
                             Swal.fire(
