@@ -48,6 +48,13 @@ export const ProyectoScreen = ({ history }) => {
             setProyecto(response.data[0]);
             setCliente(response.data[1]);
             setProyectoState(true);
+
+            if (response.data[0].estado === 'Desarrollo') {
+                setOptionValue('1');
+            } else if (response.data[0].estado === 'Completado') {
+                setOptionValue('2');
+            }
+
         });
 
         axios.get(`https://tfi-admrec.herokuapp.com/detalles`).then((response) => {
@@ -56,7 +63,7 @@ export const ProyectoScreen = ({ history }) => {
 
     }, [proyectoId]);
 
-    if(proyectoState){
+    if (proyectoState) {
         defaultLabel.label = proyecto.estado;
     }
 
@@ -82,7 +89,7 @@ export const ProyectoScreen = ({ history }) => {
         detalles.forEach(detalle => {
 
 
-            if(detalle.ProyectoId === parseInt(proyectoId)){
+            if (detalle.ProyectoId === parseInt(proyectoId)) {
                 console.log('Entre');
                 id = detalle.FacturaId;
                 b = true;
