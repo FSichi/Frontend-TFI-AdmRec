@@ -91,7 +91,7 @@ export const ClienteScreen = ({ history }) => {
 
                                         });
                                     });
-                                    
+
                                     /* Borrar Cliente */
                                     axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
                                         Swal.fire(
@@ -110,47 +110,60 @@ export const ClienteScreen = ({ history }) => {
 
                 } else {
 
-                    Swal.fire({
-                        title: 'Se ha detectado que el Cliente tiene facturas a su nombre. Quieres continuar?',
-                        text: "Esto quitara del listado a la factura correspondiente. Asegurate de que has exportado todas las facturas del cliente.",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Eliminar',
-                        cancelButtonText: 'Cancelar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
+                    var rz = cliente.apellidoyNombre;
+                    var facturas = [];
 
-                            var rz = cliente.apellidoyNombre;
+                    axios.get(`https://tfi-admrec.herokuapp.com/facturas/rz/${rz}`).then((response) => {
 
-                            axios.get(`https://tfi-admrec.herokuapp.com/facturas/rz/${rz}`).then((response) => {
+                        facturas = response.data;
 
-                                var facturas = response.data;
+                        if (response.data.length !== 0) {
 
-                                /* Borrar Facturas */
-                                facturas.forEach(factura => {
-                                    axios.delete(`https://tfi-admrec.herokuapp.com/facturas/${factura.id}`).then((response) => {
+                            Swal.fire({
+                                title: 'Se ha detectado que el Cliente tiene facturas a su nombre. Quieres continuar?',
+                                text: "Esto quitara del listado a la factura correspondiente. Asegurate de que has exportado todas las facturas del cliente.",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Eliminar',
+                                cancelButtonText: 'Cancelar'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
 
+                                    /* Borrar Facturas */
+                                    facturas.forEach(factura => {
+                                        axios.delete(`https://tfi-admrec.herokuapp.com/facturas/${factura.id}`).then((response) => {
+
+                                        });
                                     });
-                                });
 
-                                /* Borrar Cliente */
-                                axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
-                                    Swal.fire(
-                                        'Cliente eliminado!',
-                                        '',
-                                        'success'
-                                    );
-                                    history.push('/cli/list');
-                                });
-
+                                    /* Borrar Cliente */
+                                    axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
+                                        Swal.fire(
+                                            'Cliente eliminado!',
+                                            '',
+                                            'success'
+                                        );
+                                        history.push('/cli/list');
+                                    });
+                                }
+                            });
+                        } else {
+                            
+                            /* Borrar Cliente */
+                            axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
+                                Swal.fire(
+                                    'Cliente eliminado!',
+                                    '',
+                                    'success'
+                                );
+                                history.push('/cli/list');
                             });
                         }
+
                     });
-
                 }
-
             }
         });
     }

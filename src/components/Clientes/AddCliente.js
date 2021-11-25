@@ -28,48 +28,29 @@ export const AddCliente = ({ history }) => {
     const handleRegister = (e) => {
         e.preventDefault();
 
-        const data = {
-            apellidoyNombre: apellidoyNombre,
-            correo: correo,
-            cuit_cuil: cuit_cuil,
-            direccion: direccion,
-            telefono: telefono
-        }
-
-        if (listClientes.length === 0) {
-
-            axios.post('https://tfi-admrec.herokuapp.com/clientes', data).then((response) => {
-
-                Swal.fire({
-                    title: 'Cliente Agregado Correctamente',
-                    icon: 'success',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Continuar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        history.push('/cli/list');
-                    }
-                });
+        if (apellidoyNombre === '' || correo === '' || cuit_cuil === '' || direccion === '' || telefono === '') {
+            
+            Swal.fire({
+                title: 'Por Favor, completa todos los campos solicitados',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Continuar'
+            }).then((result) => {
 
             });
+
         } else {
 
-            var cc = false;
-            var em = false;
+            const data = {
+                apellidoyNombre: apellidoyNombre,
+                correo: correo,
+                cuit_cuil: cuit_cuil,
+                direccion: direccion,
+                telefono: telefono
+            }
 
-            listClientes.forEach(cliente => {
+            if (listClientes.length === 0) {
 
-                if (cliente.cuit_cuil === data.cuit_cuil) {
-                    cc = true;
-                }
-
-                if (cliente.correo === data.correo) {
-                    em = true;
-                }
-
-            });
-
-            if (!cc && !em) {
                 axios.post('https://tfi-admrec.herokuapp.com/clientes', data).then((response) => {
 
                     Swal.fire({
@@ -84,35 +65,74 @@ export const AddCliente = ({ history }) => {
                     });
 
                 });
-            } else if (cc) {
-                Swal.fire({
-                    title: 'EL Cuit/Cuil Ingresado ya coincide con el de un Cliente Existente.',
-                    icon: 'error',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Continuar'
-                }).then((result) => {
+
+            } else {
+
+                var cc = false;
+                var em = false;
+
+                listClientes.forEach(cliente => {
+
+                    if (cliente.cuit_cuil === data.cuit_cuil) {
+                        cc = true;
+                    }
+
+                    if (cliente.correo === data.correo) {
+                        em = true;
+                    }
 
                 });
-            } else if (em) {
-                Swal.fire({
-                    title: 'EL Correo Ingresado ya coincide con el de un Cliente Existente.',
-                    icon: 'error',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Continuar'
-                }).then((result) => {
 
-                });
-            } else if (cc && em) {
-                Swal.fire({
-                    title: 'EL Cuit/Cuil y el Correo Ingresados ya coinciden con los de un Cliente Existente.',
-                    icon: 'error',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Continuar'
-                }).then((result) => {
+                if (!cc && !em) {
+                    axios.post('https://tfi-admrec.herokuapp.com/clientes', data).then((response) => {
 
-                });
+                        Swal.fire({
+                            title: 'Cliente Agregado Correctamente',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Continuar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                history.push('/cli/list');
+                            }
+                        });
+
+                    });
+                } else if (cc && !em) {
+                    Swal.fire({
+                        title: 'EL Cuit/Cuil Ingresado ya coincide con el de un Cliente Existente.',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Continuar'
+                    }).then((result) => {
+                        setCuitState(cc)
+                        setEmailState(em)
+                    });
+                } else if (em && !cc) {
+                    Swal.fire({
+                        title: 'EL Correo Ingresado ya coincide con el de un Cliente Existente.',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Continuar'
+                    }).then((result) => {
+                        setCuitState(cc)
+                        setEmailState(em)
+                    });
+                } else if (cc && em) {
+                    Swal.fire({
+                        title: 'EL Cuit/Cuil y el Correo Ingresados ya coinciden con los de un Cliente Existente.',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Continuar'
+                    }).then((result) => {
+                        setCuitState(cc)
+                        setEmailState(em)
+                    });
+                }
             }
         }
+
+
 
     }
 
@@ -125,7 +145,7 @@ export const AddCliente = ({ history }) => {
                         <div className="card bg-dark text-white" style={{ borderRadius: '1rem' }}>
                             <div className="card-body p-5 text-center">
 
-                                <form className="pb-1" onSubmit={handleRegister}>
+                                <form className="pb-1" onSubmit={handleRegister} autoComplete="off">
 
                                     <h2 className="fw-bold text-uppercase">Datos del Cliente</h2>
                                     <p className="text-white-50">Por favor Completa el formulario a continuacion con la informacion del cliente</p>
@@ -139,34 +159,70 @@ export const AddCliente = ({ history }) => {
                                             name='apellidoyNombre'
                                             value={apellidoyNombre}
                                             onChange={handleInputChange}
-                                            autoComplete='off'
-
                                         />
                                     </div>
+                                    {
+                                        (!emailState)
+                                            ?
+                                            (
+                                                <div className="form-outline form-white mb-4">
+                                                    <input
+                                                        type="email"
+                                                        className="form-control form-control-lg text-center"
+                                                        placeholder='Correo Electronico'
+                                                        name='correo'
+                                                        value={correo}
+                                                        onChange={handleInputChange}
+                                                    />
+                                                </div>
+                                            )
+                                            :
+                                            (
+                                                <div className="form-outline form-white mb-4">
+                                                    <input
+                                                        type="email"
+                                                        className="form-control form-control-lg text-center bg-danger"
+                                                        placeholder='Correo Electronico'
+                                                        name='correo'
+                                                        value={correo}
+                                                        onChange={handleInputChange}
+                                                    />
+                                                </div>
+                                            )
+                                    }
 
-                                    <div className="form-outline form-white mb-4">
-                                        <input
-                                            type="email"
-                                            className="form-control form-control-lg text-center"
-                                            placeholder='Correo Electronico'
-                                            name='correo'
-                                            value={correo}
-                                            onChange={handleInputChange}
-                                            autoComplete='off'
-                                        />
-                                    </div>
+                                    {
+                                        (!cuitState)
+                                            ?
+                                            (
+                                                <div className="form-outline form-white mb-4">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control form-control-lg text-center"
+                                                        placeholder='CUIT/CUIL'
+                                                        name='cuit_cuil'
+                                                        value={cuit_cuil}
+                                                        onChange={handleInputChange}
+                                                    />
+                                                </div>
+                                            )
+                                            :
+                                            (
+                                                <div className="form-outline form-white mb-4">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control form-control-lg text-center bg-danger"
+                                                        placeholder='CUIT/CUIL'
+                                                        name='cuit_cuil'
+                                                        value={cuit_cuil}
+                                                        onChange={handleInputChange}
+                                                    />
+                                                </div>
+                                            )
+                                    }
 
-                                    <div className="form-outline form-white mb-4">
-                                        <input
-                                            type="text"
-                                            className="form-control form-control-lg text-center"
-                                            placeholder='CUIT/CUIL'
-                                            name='cuit_cuil'
-                                            value={cuit_cuil}
-                                            onChange={handleInputChange}
-                                            autoComplete='off'
-                                        />
-                                    </div>
+
+
 
                                     <div className="form-outline form-white mb-4">
                                         <input
@@ -176,7 +232,6 @@ export const AddCliente = ({ history }) => {
                                             name='direccion'
                                             value={direccion}
                                             onChange={handleInputChange}
-                                            autoComplete='off'
                                         />
                                     </div>
 
@@ -188,7 +243,6 @@ export const AddCliente = ({ history }) => {
                                             name='telefono'
                                             value={telefono}
                                             onChange={handleInputChange}
-                                            autoComplete='off'
                                         />
                                     </div>
 

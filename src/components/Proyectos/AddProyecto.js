@@ -173,6 +173,17 @@ export const AddProyecto = ({ history }) => {
         });
     }
 
+    const handleCancelCliente = () => {
+
+        setCliente({});
+        setClienteState(false);
+    
+    }
+
+    const handleChangeFechaFin = () => {
+    
+    }
+
     return (
 
         <div className='container-lg container-md-fluid p-5 bg-dark text-white mt-5 mb-5' style={{ borderRadius: '1rem' }}>
@@ -210,6 +221,7 @@ export const AddProyecto = ({ history }) => {
                             placeholder='Agregue una descripcion detallada'
                             value={desc}
                             onChange={handleInputChange}
+                            autoComplete="off"
                         />
                     </div>
                 </div>
@@ -222,6 +234,7 @@ export const AddProyecto = ({ history }) => {
                             type="text"
                             className="form-control form-control-lg text-center"
                             placeholder='($)'
+                            autoComplete="off"
                             name='cot'
                             value={cot}
                             onChange={handleInputChange}
@@ -241,6 +254,7 @@ export const AddProyecto = ({ history }) => {
                                     type="text"
                                     className="form-control form-control-lg text-center"
                                     placeholder='Duracion'
+                                    autoComplete="off"
                                     name='dur'
                                     value={dur}
                                     onChange={handleInputChange}
@@ -257,7 +271,7 @@ export const AddProyecto = ({ history }) => {
                                 className='mt-1 fw-bold text-center'
                                 options={Fechas}
                                 defaultValue={defaultLabel}
-                                onChange={(e) => { setOptionValue(e.value) }}
+                                onChange={(e) => { setOptionValue(e.value); handleChangeFechaFin(); }}
                                 styles={customStyles}
                                 isSearchable={false}
                             />
@@ -300,23 +314,56 @@ export const AddProyecto = ({ history }) => {
                         ?
                         (
                             <div>
-                                <span className="fs-5">Cliente Asociado</span>
-                                <input
-                                    type="text"
-                                    className="ms-3 me-3 form-control-lg text-center"
-                                    placeholder='CUIT/CUIL'
-                                    name='searchFilter'
-                                    value={searchFilter}
-                                    onChange={handleInputChange}
-                                />
+                                {
+                                    (!clienteState)
+                                        ?
+                                        (
+                                            <div>
+                                                <span className="fs-5">Cliente Asociado</span>
+                                                <input
+                                                    type="text"
+                                                    className="ms-3 me-3 form-control-lg text-center"
+                                                    placeholder='CUIT/CUIL'
+                                                    name='searchFilter'
+                                                    value={searchFilter}
+                                                    onChange={handleInputChange}
+                                                />
 
-                                <button
-                                    className="btn btn-outline-light btn-lg px-5 w-25"
-                                    type="button"
-                                    onClick={handleFilterCliente}
-                                >
-                                    Comprobar
-                                </button>
+                                                <button
+                                                    className="btn btn-outline-light btn-lg px-5 w-25"
+                                                    type="button"
+                                                    onClick={handleFilterCliente}
+                                                >
+                                                    Comprobar
+                                                </button>
+
+                                            </div>
+                                        )
+                                        :
+                                        (
+                                            <div>
+                                                <span className="fs-5">Cliente Asociado</span>
+                                                <input
+                                                    type="text"
+                                                    className="ms-3 me-3 form-control-lg text-center text-white"
+                                                    placeholder='CUIT/CUIL'
+                                                    disabled
+                                                    value={cliente.apellidoyNombre}
+
+                                                />
+
+                                                <button
+                                                    className="btn btn-outline-warning btn-lg px-5 w-25"
+                                                    type="button"
+                                                    onClick={handleCancelCliente}
+                                                >
+                                                    Cancelar Asociacion
+                                                </button>
+
+                                            </div>
+                                        )
+                                }
+
 
                             </div>
                         )
@@ -330,6 +377,7 @@ export const AddProyecto = ({ history }) => {
                                     placeholder='CUIT/CUIL'
                                     disabled
                                     value={cliente.apellidoyNombre}
+
                                 />
                             </div>
                         )
