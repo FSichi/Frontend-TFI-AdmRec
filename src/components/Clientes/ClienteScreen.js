@@ -121,17 +121,24 @@ export const ClienteScreen = ({ history }) => {
 
                     axios.get(`https://tfi-admrec.herokuapp.com/facturas/rz/${rz}`).then((response) => {
 
-                        console.log(response.data);
+                        var facturas = response.data;
+
+                        /* Borrar Facturas */
+                        facturas.forEach(factura => {
+                            axios.delete(`https://tfi-admrec.herokuapp.com/facturas/${factura.id}`).then((response) => {
+
+                            });
+                        });
 
                         /* Borrar Cliente */
-/*                         axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
+                        axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
                             Swal.fire(
                                 'Cliente eliminado!',
                                 '',
                                 'success'
                             );
                             history.push('/cli/list');
-                        }); */
+                        });
 
                     });
 
