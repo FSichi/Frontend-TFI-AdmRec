@@ -55,7 +55,7 @@ export const TablaProyectos = ({ proyectos }) => {
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
-    
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -100,7 +100,12 @@ export const TablaProyectos = ({ proyectos }) => {
                                     <Typography className='text-white text-center fs-5' variant="subtitle2"> $ {row.cotizacion}</Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography className='text-white text-center fs-5' variant="subtitle2"> {row.fechaFin}</Typography>
+                                    <Typography className='text-white text-center fs-5' variant="subtitle2">
+                                        {
+                                            row.fechaFin[8] + row.fechaFin[9] + '-' + row.fechaFin[5] + row.fechaFin[6] + '-' + 
+                                            row.fechaFin[0] +row.fechaFin[1] + row.fechaFin[2] + row.fechaFin[3]
+                                        }
+                                    </Typography>
                                 </TableCell>
                                 <TableCell>
                                     <Typography

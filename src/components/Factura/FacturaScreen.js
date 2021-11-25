@@ -56,7 +56,7 @@ export const FacturaScreen = ({ history }) => {
         html2canvas(document.querySelector("#capture")).then(canvas => {
 
             const imgData = canvas.toDataURL('image/png');
-            const pdf = jsPDF('l', 'mm', [300, 370]);
+            const pdf = jsPDF('l', 'mm', [330, 370]);
             pdf.addImage(imgData, 'PNG', 10, 10);
             /* pdf.save("factura.pdf"); */
             pdf.save(`factura${nombre}.pdf`);

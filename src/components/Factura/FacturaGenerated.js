@@ -51,7 +51,7 @@ export const FacturaGenerated = ({ proyectos, cliente, tipoFac, medioPago, histo
         var mm = today.getMonth() + 1;
         var yyyy = today.getFullYear();
 
-        var hh = today.getHours() - 3;
+        var hh = today.getHours();
         var mn = today.getMinutes();
 
         if (dd < 10) {
