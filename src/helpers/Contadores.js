@@ -66,9 +66,6 @@ export const separarEstadoProyectos = (proyectos) => {
 
 export const separarClientes = (clientes, proyectos) => {
 
-/*     console.log('Separar Clientes recibio Clientes: ', clientes);
-    console.log('Separar Clientes recibio Proyectos: ', proyectos); */
-
     var clientesFilter = [];
     var clientesFilterSize = [];
 
@@ -103,9 +100,11 @@ export const separarClientes = (clientes, proyectos) => {
 
     });
 
+    /* REVISAR ORDENAMIENTO */
+
     clientesFilter.sort(function compareNumbers(a, b) {
         return a - b;
-    })
+    });
 
     if (clientes.length > 3) {
 
@@ -114,7 +113,6 @@ export const separarClientes = (clientes, proyectos) => {
         clientesFilterSize.push(clientesFilter[2]);
 
         return clientesFilterSize;
-
 
     } else {
 
