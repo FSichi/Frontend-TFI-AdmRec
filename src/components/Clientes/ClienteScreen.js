@@ -43,7 +43,21 @@ export const ClienteScreen = ({ history }) => {
     const { nombre, email, cc, dir, phone } = formValues;
 
     const handleProyectos = () => {
-        setProyectState(!proyectoState);
+        if (proyectos.length === 0) {
+            Swal.fire({
+                title: 'El Cliente no posee Proyectos asociados actualmente.',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Continuar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                }
+            });
+        } else {
+            setProyectState(!proyectoState);
+        }
+
     }
 
     const handleDelete = () => {
@@ -213,35 +227,22 @@ export const ClienteScreen = ({ history }) => {
             data.telefono = phone
         }
 
-        if (listOfClientes.length === 0) {
-            axios.put(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`, data).then((response) => {
+        /* COMPRUEBO LOS CAMPOS */
 
-                Swal.fire({
-                    title: 'Cliente Actualizado Correctamente',
-                    icon: 'success',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Continuar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.reload();
-                    }
-                });
-            });
-        }
-        else {
+        if (nombre === '' || email === '' || cc === '' || dir === '' || phone === '') {
+            Swal.fire({
+                title: 'Por Favor completa todos los campos solicitados',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Continuar'
+            }).then((result) => {
+                if (result.isConfirmed) {
 
-            var b = false;
-
-            listOfClientes.forEach(cliente => {
-
-                if (cliente.cuit_cuil === data.cuit_cuil) {
-                    b = true;
                 }
-
             });
+        } else {
 
-            if (!b) {
-
+            if (listOfClientes.length === 0) {
                 axios.put(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`, data).then((response) => {
 
                     Swal.fire({
@@ -254,21 +255,53 @@ export const ClienteScreen = ({ history }) => {
                             window.location.reload();
                         }
                     });
-
-                });
-            } else {
-                Swal.fire({
-                    title: 'El Cuit-Cuil que intentas modificar ya coincide con el de un Cliente Activo',
-                    icon: 'error',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Continuar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.reload();
-                    }
                 });
             }
+            else {
+
+                var b = false;
+
+                listOfClientes.forEach(cliente => {
+
+                    if (parseInt(clienteId) !== cliente.id) {
+                        if (cliente.cuit_cuil === data.cuit_cuil) {
+                            b = true;
+                        }
+                    }
+                });
+
+                if (!b) {
+
+                    axios.put(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`, data).then((response) => {
+
+                        Swal.fire({
+                            title: 'Cliente Actualizado Correctamente',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Continuar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
+                        });
+
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'El Cuit-Cuil que intentas modificar ya coincide con el de un Cliente Activo',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Continuar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                }
+            }
         }
+
+
     }
 
     return (

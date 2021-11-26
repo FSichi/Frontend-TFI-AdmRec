@@ -11,11 +11,13 @@ export const ReportesScreen = () => {
 
     const [clientes, setClientes] = useState([]);
     const [proyectos, setProyectos] = useState([]);
+    const [proyectosDefinitivo, setProyectosDefinitivo] = useState([]);
     const [facturas, setFacturas] = useState([]);
     const [detalles, setDetalles] = useState([]);
     const [facturasComp, setFacturasComp] = useState(false);
 
     var facturasAll = [];
+
 
     useEffect(() => {
 
@@ -33,7 +35,29 @@ export const ReportesScreen = () => {
         });
 
         axios.get('https://tfi-admrec.herokuapp.com/proyectos').then((response) => {
+
             setProyectos(response.data);
+
+            var proyectos = [];
+            var proyecto = {};
+
+            response.data.forEach(pro => {
+
+                axios.get(`https://tfi-admrec.herokuapp.com/clientes/${pro.ClienteId}`).then((response) => {
+
+                    proyecto = {
+                        ...pro,
+                        cliente: ''
+                    }
+
+                    proyecto.cliente = response.data.apellidoyNombre;
+                    proyectos.push(proyecto)
+                });
+
+            });
+
+            console.log(proyectos);
+            setProyectosDefinitivo(proyectos);
         });
 
     }, []);
@@ -261,19 +285,33 @@ export const ReportesScreen = () => {
                                         <th scope="col">INICIO</th>
                                         <th scope="col">FIN (APROXIMADO)</th>
                                         <th scope="col">ESTADO</th>
+                                        <th scope="col">CLIENTE</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        proyectos.map(proyecto => (
+                                        proyectosDefinitivo.map(proyecto => (
 
                                             <tr key={proyecto.id}>
                                                 <td className='p-3'>{proyecto.nombre}</td>
                                                 <td className='p-3'>{proyecto.duracion}</td>
-                                                <td className='p-3'>{proyecto.cotizacion}</td>
-                                                <td className='p-3'>{proyecto.fechaInicio}</td>
-                                                <td className='p-3'>{proyecto.fechaFin}</td>
+                                                <td className='p-3'> $ {proyecto.cotizacion}</td>
+                                                <td className='p-3'>
+                                                    {
+                                                        proyecto.fechaInicio[8] + proyecto.fechaInicio[9] + '-' + proyecto.fechaInicio[5] +
+                                                        proyecto.fechaInicio[6] + '-' + proyecto.fechaInicio[0] + proyecto.fechaInicio[1] +
+                                                        proyecto.fechaInicio[2] + proyecto.fechaInicio[3]
+                                                    }
+                                                </td>
+                                                <td className='p-3'>
+                                                    {
+                                                        proyecto.fechaFin[8] + proyecto.fechaFin[9] + '-' + proyecto.fechaFin[5] +
+                                                        proyecto.fechaFin[6] + '-' + proyecto.fechaFin[0] + proyecto.fechaFin[1] +
+                                                        proyecto.fechaFin[2] + proyecto.fechaFin[3]
+                                                    }
+                                                </td>
                                                 <td className='p-3'>{proyecto.estado}</td>
+                                                <td className='p-3'>{proyecto.cliente}</td>
                                             </tr>
                                         ))
                                     }
@@ -308,6 +346,7 @@ export const ReportesScreen = () => {
                                 <thead className="table-dark" >
                                     <tr>
                                         <th scope="col">RAZON SOCIAL</th>
+                                        <th scope="col">PROYECTOS FACTURADOS</th>
                                         <th scope="col">TIPO FACTURA</th>
                                         <th scope="col">MEDIO DE PAGO</th>
                                         <th scope="col">TOTAL</th>
@@ -319,7 +358,8 @@ export const ReportesScreen = () => {
                                         facturas.map(factura => (
 
                                             <tr key={factura.id}>
-                                                <td className=''>
+                                                <td className='p-3'>{factura.razonSocial}</td>
+                                                <td className='p-3'>
                                                     {
                                                         factura.descripcion.map(proyecto => (
                                                             <p key={(Math.floor(Math.random() * (1000 - 1)) + 1)}>
@@ -330,12 +370,14 @@ export const ReportesScreen = () => {
                                                 </td>
                                                 <td className='p-3'>{factura.tipoFactura}</td>
                                                 <td className='p-3'>{factura.medioPago}</td>
-                                                <td className='p-3'>{factura.total}</td>
+                                                <td className='p-3'> $ {factura.total}</td>
                                                 <td className='p-3'>
                                                     {
-                                                        factura.fecha[0] + factura.fecha[1] + factura.fecha[2] + factura.fecha[3] + factura.fecha[4] + factura.fecha[5] +
-                                                        factura.fecha[6] + factura.fecha[7] + factura.fecha[8] + factura.fecha[9] + ' || ' + factura.fecha[11] + factura.fecha[12] +
-                                                        factura.fecha[13] + factura.fecha[14] + factura.fecha[15] + factura.fecha[16] + factura.fecha[17] + factura.fecha[18]
+                                                        factura.fecha[8] + factura.fecha[9] + factura.fecha[7] + factura.fecha[5] +
+                                                        factura.fecha[6] + factura.fecha[4] + factura.fecha[0] + factura.fecha[1] + 
+                                                        factura.fecha[2] + factura.fecha[3] + ' ' + factura.fecha[11] + 
+                                                        factura.fecha[12] + factura.fecha[13] + factura.fecha[14] + factura.fecha[15] + 
+                                                        factura.fecha[16] + factura.fecha[17] + factura.fecha[18]
                                                     }
                                                 </td>
                                             </tr>
