@@ -303,10 +303,26 @@ export const ProyectoScreen = ({ history }) => {
                                                 <span className="fs-5">Fecha de Inicio</span>
                                                 <input type="text" className="form-control" disabled value={fechaInicio} />
                                             </div>
-                                            <div className="col-md-12 mb-5">
-                                                <span className="fs-5">Fecha de Finalizacion</span>
-                                                <input type="text" className="form-control" disabled value={fechaFinValue} />
-                                            </div>
+
+                                            {
+                                                (proyecto.estado === 'Completado')
+                                                    ?
+                                                    (
+                                                        <div className="col-md-12 mb-5">
+                                                            <span className="fs-5">Fecha de Finalizacion</span>
+                                                            <input type="text" className="form-control" disabled value={fechaFinValue} />
+                                                        </div>
+                                                    )
+                                                    :
+                                                    (
+                                                        <div className="col-md-12 mb-5">
+                                                            <span className="fs-5">Fecha de Finalizacion (Aproximado)</span>
+                                                            <input type="text" className="form-control" disabled value={fechaFinValue} />
+                                                        </div>
+                                                    )
+                                            }
+
+
 
                                             <div className="col-md-12 mb-5">
                                                 <div className='row'>
@@ -381,7 +397,7 @@ export const ProyectoScreen = ({ history }) => {
                                                     (
                                                         <div className="col-md-12 mb-3">
                                                             <span className="fs-5">Fecha de Inicio</span>
-                                                            <input type="date" className="form-control bg-secondary fw-bold" value={fInicio} disabled/>
+                                                            <input type="date" className="form-control bg-secondary fw-bold" value={fInicio} disabled />
                                                         </div>
                                                     )
                                                     :
@@ -392,8 +408,6 @@ export const ProyectoScreen = ({ history }) => {
                                                         </div>
                                                     )
                                             }
-
-
 
                                             {
                                                 (proyecto.estado === 'Completado')
@@ -412,7 +426,6 @@ export const ProyectoScreen = ({ history }) => {
                                                         </div>
                                                     )
                                             }
-
 
                                             <div className="col-md-12 mb-5">
                                                 <div className='row'>
