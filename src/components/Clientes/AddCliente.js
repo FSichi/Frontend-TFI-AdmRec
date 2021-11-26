@@ -100,7 +100,7 @@ export const AddCliente = ({ history }) => {
                     });
                 } else if (cc && !em) {
                     Swal.fire({
-                        title: 'EL Cuit/Cuil Ingresado ya coincide con el de un Cliente Existente.',
+                        title: 'El Cuit/Cuil Ingresado ya coincide con el de un Cliente Existente.',
                         icon: 'error',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Continuar'
@@ -110,7 +110,7 @@ export const AddCliente = ({ history }) => {
                     });
                 } else if (em && !cc) {
                     Swal.fire({
-                        title: 'EL Correo Ingresado ya coincide con el de un Cliente Existente.',
+                        title: 'El Correo Ingresado ya coincide con el de un Cliente Existente.',
                         icon: 'error',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Continuar'
@@ -120,7 +120,7 @@ export const AddCliente = ({ history }) => {
                     });
                 } else if (cc && em) {
                     Swal.fire({
-                        title: 'EL Cuit/Cuil y el Correo Ingresados ya coinciden con los de un Cliente Existente.',
+                        title: 'El Cuit/Cuil y el Correo Ingresados ya coinciden con los de un Cliente Existente.',
                         icon: 'error',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Continuar'
