@@ -7,8 +7,6 @@ export const UsuariosGraf = ({ clientes, proyectos }) => {
 
     const clientesFilter = separarClientes(clientes, proyectos);
 
-    console.log(clientesFilter);
-
     const c1Pro = separarEstadoProyectos(getProyectosByCliente(clientesFilter[0].user.id, proyectos));
     const c2Pro = separarEstadoProyectos(getProyectosByCliente(clientesFilter[1].user.id, proyectos));
     const c3Pro = separarEstadoProyectos(getProyectosByCliente(clientesFilter[2].user.id, proyectos));

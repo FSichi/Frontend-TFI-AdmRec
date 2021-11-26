@@ -100,12 +100,8 @@ export const separarClientes = (clientes, proyectos) => {
 
     });
 
-    /* REVISAR ORDENAMIENTO */
-
-    clientesFilter.sort(function compareNumbers(a, b) {
-        return a - b;
-    });
-
+    clientesFilter = clientesFilter.sort(((a, b) => b.cantidad - a.cantidad));
+    
     if (clientes.length > 3) {
 
         clientesFilterSize.push(clientesFilter[0]);

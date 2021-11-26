@@ -11,10 +11,10 @@ export const ProyectosGraf = ({proyectos}) => {
 
 
     const data = {
-        labels: ['Desarrollo', 'Completados'],
+        labels: ['Completados', 'Desarrollo'],
         datasets: [{
             label: '',
-            data: [desarrolloState, completadoState],
+            data: [completadoState, desarrolloState],
             backgroundColor: [
                 'rgba(75, 192, 192, 1)',
                 'rgba(255, 159, 64, 1)'

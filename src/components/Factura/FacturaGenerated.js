@@ -133,8 +133,6 @@ export const FacturaGenerated = ({ proyectos, cliente, tipoFac, medioPago, histo
 
                 axios.post('https://tfi-admrec.herokuapp.com/detalles', detalle).then((response) => {
 
-                    console.log('Guarde: ', detalle);
-
                 });
 
             });

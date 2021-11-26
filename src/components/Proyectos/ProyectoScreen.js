@@ -93,7 +93,6 @@ export const ProyectoScreen = ({ history }) => {
 
 
             if (detalle.ProyectoId === parseInt(proyectoId)) {
-                console.log('Entre');
                 id = detalle.FacturaId;
                 b = true;
             }
@@ -204,9 +203,6 @@ export const ProyectoScreen = ({ history }) => {
         } else {
             data.fechaInicio = fInicio
         }
-
-
-        /* console.log(data); */
 
         axios.put(`https://tfi-admrec.herokuapp.com/proyectos/${proyectoId}`, data).then((response) => {
 

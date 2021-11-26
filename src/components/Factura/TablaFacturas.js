@@ -72,16 +72,12 @@ export const TablaFacturas = ({ facturas }) => {
         facturasAll.push(fact);
     });
 
-    // console.log( 'Antes de entrar al for: ', facturasAll);
-
     for (var i = 0; i < facturasAll.length; i++) {
 
         // eslint-disable-next-line no-loop-func
         detalles.forEach(detalle => {
 
             if (parseInt(detalle.FacturaId) === facturasAll[i].id) {
-
-                console.log('Coinciden');
 
                 facturasAll[i].descripcion.push(detalle.descripcion);
             }

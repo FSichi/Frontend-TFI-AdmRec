@@ -55,8 +55,6 @@ export const ReportesScreen = () => {
                 });
 
             });
-
-            console.log(proyectos);
             setProyectosDefinitivo(proyectos);
         });
 

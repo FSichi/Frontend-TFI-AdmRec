@@ -31,11 +31,6 @@ export const NavBar = () => {
         setNavTogleHamb(!navTogleHamb);
     }
 
-/*     const handleLogout = (e) => {
-        e.preventDefault();
-        console.log('LOGOUT');
-    } */
-
     return (
         <div className='container-fluid mt-3'>
 
