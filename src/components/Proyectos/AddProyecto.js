@@ -39,7 +39,7 @@ export const AddProyecto = ({ history }) => {
     const [cliente, setCliente] = useState({});
     const [clienteState, setClienteState] = useState(false);
     const [optionValue, setOptionValue] = useState('1');
-    
+
 
     useEffect(() => {
         if (clienteId !== '0') {
@@ -53,9 +53,9 @@ export const AddProyecto = ({ history }) => {
     const tiempoTranscurrido = Date.now();
     const hoy = new Date(tiempoTranscurrido);
     var fechaInicioToday = hoy.getFullYear() + "-" + (hoy.getMonth() + 1) + "-" + hoy.getDate();
-    
-    // var fechaFin = hoy.getFullYear() + "-" + (hoy.getMonth() + 1) + "-" + hoy.getDate() ;
-    // const [fechaFinValue, setFechaFinValue] = useState(fechaFin);
+
+    var fechaFin = hoy.getFullYear() + "-" + (hoy.getMonth() + 1) + "-" + hoy.getDate();
+    const [fechaFinValue, setFechaFinValue] = useState(fechaFin);
 
     const [formValues, handleInputChange] = useForm({
         name: '',
@@ -63,15 +63,14 @@ export const AddProyecto = ({ history }) => {
         cot: '',
         dur: '',
         fInicio: fechaInicioToday,
-        fFin: '',
         searchFilter: '',
     });
 
-    const { name, desc, cot, dur, fInicio, fFin, searchFilter } = formValues;
+    const { name, desc, cot, dur, fInicio, searchFilter } = formValues;
 
     const handleRegister = () => {
 
-        if (name === '' || desc === '' || cot === '' || dur === '' || fInicio === '' || fFin === '') {
+        if (name === '' || desc === '' || cot === '' || dur === '' || fInicio === '') {
 
             Swal.fire({
                 title: 'Por favor completa todos los campos',
@@ -124,7 +123,7 @@ export const AddProyecto = ({ history }) => {
             cotizacion: parseFloat(cot),
             estado: 'Desarrollo',
             fechaInicio: fInicio,
-            fechaFin: fFin,
+            fechaFin: fechaFinValue,
             ClienteId: cliente.id
         }
 
@@ -181,91 +180,44 @@ export const AddProyecto = ({ history }) => {
 
         setCliente({});
         setClienteState(false);
-    
+
     }
 
-/*     const handleChangeFechaFin = (duracion) => {
+    const handleChangeFechaFin = (duracion) => {
 
-        var fechaFinAñoActual = fechaFinValue[0] + fechaFinValue[1] + fechaFinValue[2] + fechaFinValue[3]
-        var fechaFinMesActual = fechaFinValue[5] + fechaFinValue[6] 
-        var fechaFinDiaActual = fechaFinValue[8] + fechaFinValue[9] 
-
-        var ffA = parseInt(fechaFinAñoActual);
-        var ffM = parseInt(fechaFinMesActual);
-        var ffD = parseInt(fechaFinDiaActual);
-
-        var opcion = '';
         var cant = parseInt(dur);
 
-        var totalDias = 0;
-        var totalMes = 0;
-        var totalAños = 0;
-    
         switch (duracion) {
             case '1':
-                opcion = 'Dias'
+                cant = dur
                 break;
             case '2':
-                opcion = 'Meses'
+                cant = dur * 30.417
                 break;
             case '3':
-                opcion = 'Años'
+                cant = dur * 365
                 break;
-        
+
             default:
                 break;
         }
 
-        console.log(dur,opcion);
+        cant = parseInt(cant);
 
-        if(opcion === 'Dias'){
+        var fechaActual = new Date();
+        var fechaFin = new Date(fechaActual.getTime() + (cant * 24 * 60 * 60 * 1000));
+        var day = fechaFin.getDate();
+        var month = fechaFin.getMonth() + 1;
+        var year = fechaFin.getFullYear();
 
-            totalDias = ffD + cant
-
-            switch (ffM) {
-                case 1:
-                    console.log('Mes de 31');
-                    break; 
-                case 2:
-                    console.log('Febrero');
-                    break; 
-                case 3:
-                    console.log('Mes de 31');
-                    break; 
-                case 4:
-                    console.log('Mes de 30');
-                    break; 
-                case 5:
-                    console.log('Mes de 31');
-                    break; 
-                case 6:
-                    console.log('Mes de 30');
-                    break; 
-                case 7:
-                    console.log('Mes de 31');
-                    break; 
-                case 8:
-                    console.log('Mes de 31');
-                    break; 
-                case 9:
-                    console.log('Mes de 30');
-                    break; 
-                case 10:
-                    console.log('Mes de 31');
-                    break; 
-                case 11:
-                    console.log('Mes de 30');
-                    break; 
-                case 12:
-                    console.log('Mes de 31');
-                    break; 
-                            
-                default:
-                    break;
-            }
+        if(month<10){
+            month = '0'+month
         }
 
-    } */
+        var fechaReturn = year + '-' + month + '-' + day
+
+        setFechaFinValue(fechaReturn);
+    }
 
     return (
 
@@ -354,7 +306,7 @@ export const AddProyecto = ({ history }) => {
                                 className='mt-1 fw-bold text-center'
                                 options={Fechas}
                                 defaultValue={defaultLabel}
-                                onChange={(e) => { setOptionValue(e.value); /* handleChangeFechaFin(e.value); */ }}
+                                onChange={(e) => { setOptionValue(e.value); handleChangeFechaFin(e.value); }}
                                 styles={customStyles}
                                 isSearchable={false}
                             />
@@ -380,10 +332,7 @@ export const AddProyecto = ({ history }) => {
                             type="date"
                             className="form-control form-control-lg text-center"
                             placeholder='Fecha de Finalizacion'
-                            name='fFin'
-                            value={fFin}
-                            onChange={handleInputChange}
-                            
+                            value={fechaFinValue}
                         />
                     </div>
                 </div>

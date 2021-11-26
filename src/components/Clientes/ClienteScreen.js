@@ -10,6 +10,7 @@ export const ClienteScreen = ({ history }) => {
 
     const { clienteId } = useParams();
     const [cliente, setCliente] = useState({});
+    const [listOfClientes, setListOfClientes] = useState([]);
     const [proyectos, setProyectos] = useState([]);
     const [proyectoState, setProyectState] = useState(false);
     const [actualizarState, setActualizarState] = useState(false);
@@ -22,6 +23,9 @@ export const ClienteScreen = ({ history }) => {
 
         axios.get(`https://tfi-admrec.herokuapp.com/proyectos/cliente/${clienteId}`).then((response) => {
             setProyectos(response.data);
+        });
+        axios.get(`https://tfi-admrec.herokuapp.com/clientes`).then((response) => {
+            setListOfClientes(response.data);
         });
 
     }, [clienteId]);
@@ -150,7 +154,7 @@ export const ClienteScreen = ({ history }) => {
                                 }
                             });
                         } else {
-                            
+
                             /* Borrar Cliente */
                             axios.delete(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`).then((response) => {
                                 Swal.fire(
@@ -209,19 +213,62 @@ export const ClienteScreen = ({ history }) => {
             data.telefono = phone
         }
 
-        axios.put(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`, data).then((response) => {
+        if (listOfClientes.length === 0) {
+            axios.put(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`, data).then((response) => {
 
-            Swal.fire({
-                title: 'Cliente Actualizado Correctamente',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Continuar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.reload();
-                }
+                Swal.fire({
+                    title: 'Cliente Actualizado Correctamente',
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Continuar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
             });
-        });
+        }
+        else {
+
+            var b = false;
+
+            listOfClientes.forEach(cliente => {
+
+                if (cliente.cuit_cuil === data.cuit_cuil) {
+                    b = true;
+                }
+
+            });
+
+            if (!b) {
+
+                axios.put(`https://tfi-admrec.herokuapp.com/clientes/${clienteId}`, data).then((response) => {
+
+                    Swal.fire({
+                        title: 'Cliente Actualizado Correctamente',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Continuar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+
+                });
+            } else {
+                Swal.fire({
+                    title: 'El Cuit-Cuil que intentas modificar ya coincide con el de un Cliente Activo',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Continuar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
+            }
+        }
     }
 
     return (
@@ -246,7 +293,6 @@ export const ClienteScreen = ({ history }) => {
                                     (!proyectoState)
                                         ? (<button className="btn btn-success w-100" type="button" onClick={handleProyectos}>Ver Proyectos</button>)
                                         : (<button className="btn btn-danger w-100" type="button" onClick={handleProyectos}>Ocultar Proyectos</button>)
-
                                 }
                             </div>
 
