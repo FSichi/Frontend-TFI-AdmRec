@@ -304,6 +304,9 @@ export const ClienteScreen = ({ history }) => {
 
     }
 
+    console.log('Cliente Form: ', cliente);
+    console.log('Form: ', nombre, email, cc, dir, phone);
+
     return (
 
         <div className='container-fluid rounded'>

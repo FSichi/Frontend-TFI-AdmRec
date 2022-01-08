@@ -35,9 +35,7 @@ export const AddCliente = ({ history }) => {
                 icon: 'error',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Continuar'
-            }).then((result) => {
-
-            });
+            })
 
         } else {
 
@@ -131,8 +129,6 @@ export const AddCliente = ({ history }) => {
                 }
             }
         }
-
-
 
     }
 

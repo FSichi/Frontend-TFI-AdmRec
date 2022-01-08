@@ -1,9 +1,9 @@
 import React from 'react'
 import { NavBar } from '../components/UI/NavBar'
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom"
+
 import { ClientesList } from '../components/Clientes/ClientesList'
 import { AddCliente } from '../components/Clientes/AddCliente'
-
 import { ClienteScreen } from '../components/Clientes/ClienteScreen'
 import { AddProyecto } from '../components/Proyectos/AddProyecto'
 import { ProyectoList } from '../components/Proyectos/ProyectoList'
